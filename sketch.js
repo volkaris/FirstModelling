@@ -7,9 +7,9 @@ let digits=5;
 
 let FPS=10**digits-2
 class body {
-	constructor(x_coordinate,width,velocity,mass,constrain) {
+	constructor(x_coordinate,y_coordinate,width,velocity,mass,constrain) {
 		this.x=x_coordinate;
-		this.y=height-width;
+		this.y=y_coordinate;
 		this.w=width;
 		this.v=velocity;
 		this.m=mass;
@@ -43,13 +43,15 @@ function setup() {
 
 	let m2=100**digits-1
 
-	first_body=new body(100,20,0,1,0);
-	second_body=new body(200,150,-1/FPS,m2,first_body.w)    //-1/FPS,m2 so same velocity but divided by amount of frames per second
+
+	first_body=new body(100,height-20 ,20,0,1,0);
+	second_body=new body(200, height-150,150,-1/FPS,m2,first_body.w)    //-1/FPS,m2 so same velocity but divided by amount of frames per second
 }
 function draw() {
 	background(0);
 	for (let i=0;i<FPS;++i) {
 		if (first_body.bump(second_body)) {
+
 			let v1 = first_body.push_off(second_body);
 			let v2 = second_body.push_off(first_body);
 			first_body.v = v1;
