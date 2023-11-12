@@ -3,9 +3,10 @@ let count = 0;
 let first_body;
 let second_body;
 
-let digits=5;
+let n;
 
-let FPS=10**digits-2
+let FPS=0;
+
 class body {
 	constructor(x_coordinate,y_coordinate,width,velocity,mass,constrain) {
 		this.x=x_coordinate;
@@ -24,7 +25,7 @@ class body {
 
 	bump(other) {
 		return !(this.x + this.w < other.x ||
-			this.x > other.x + other.w); // +this.w so we check not center of body but left/right corner
+			this.x > other.x + other.w); // +this.w чтобы считать не центр тела,а его боковые стороны
 	}
 	push_off(other){
 		return ((this.m-other.m)/(this.m+other.m))*this.v+ ((2*other.m)/(this.m+other.m))*other.v
@@ -40,12 +41,18 @@ class body {
 function setup() {
 	createCanvas(3000, 300);
 	background(51);
+	count=0;
+	n= parseInt(document.getElementById("userInput").value);
 
-	let m2=100**digits-1
-
-
+	if (n-2>=0){
+		FPS=10**(n-2)
+	}
+	else {
+		FPS=10**n
+	}
+	let m2=10**n
 	first_body=new body(100,height-20 ,20,0,1,0);
-	second_body=new body(200, height-150,150,-1/FPS,m2,first_body.w)    //-1/FPS,m2 so same velocity but divided by amount of frames per second
+	second_body=new body(200, height-150,150,-1/FPS,m2,first_body.w)    //-1/FPS,m2 такая же скорость,но на каждый кадр в секунду
 }
 function draw() {
 	background(0);
@@ -67,7 +74,7 @@ function draw() {
 		second_body.update();
 	}
 
-	document.getElementById("counter").textContent = "Amount of collisions: " + count
+	document.getElementById("counter").textContent = "Количество столкновений: " + count
 
 	first_body.show();
 	second_body.show();
